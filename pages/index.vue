@@ -1,24 +1,30 @@
 <template>
-  <h1>新規登録</h1>
-  <div>
-    <input type="text" v-model="email" />
-    <input type="text" v-model="password" />
-  </div>
-  <div>
-    <button type="button" @click="handleSignUp">新規登録する</button>
-  </div>
+  <NuxtLayout>
+    <div
+      class="h-[calc(100vh_-_44px)] bg-black flex flex-col justify-evenly items-center text-white"
+    >
+      <h1 class="text-5xl font-bold">WELCOME TO FRUIT SHOP</h1>
+      <img
+        src="@/assets/images/top-image.png"
+        class="object-cover h-[70%]"
+        alt="top-image"
+      />
+      <div class="underline cursor-pointer text-lg" @click="goItems">
+        商品を見る
+      </div>
+    </div>
+  </NuxtLayout>
 </template>
 
-<script setup>
-const email = ref("");
-const password = ref("");
+<script setup lang="ts">
+const { checkIsLogined } = useAuth();
 
-const handleSignUp = async () => {
-  const { signUp } = useAuth();
-  try {
-    await signUp(email.value, password.value);
-  } catch (error) {
-    window.alert("登録に失敗しました");
+const goItems = async () => {
+  const logined = await checkIsLogined();
+  if (logined) {
+    await navigateTo("/items");
+  } else {
+    await navigateTo("/sign_in");
   }
 };
 </script>
