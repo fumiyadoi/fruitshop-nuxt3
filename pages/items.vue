@@ -1,8 +1,6 @@
 <template>
   <NuxtLayout>
-    <div
-      class="min-h-[calc(100vh_-_44px)] w-full flex flex-col items-center pb-6"
-    >
+    <div class="w-full flex flex-col items-center pb-6">
       <div class="w-fit">
         <div class="w-full flex justify-between my-4">
           <div class="w-full mr-4">
@@ -30,7 +28,7 @@ import Input from "@/components/input/Input.vue";
 import Button from "@/components/button/Button.vue";
 import ItemCard from "@/components/item/ItemCard.vue";
 import { Item } from "~/composables/useItems";
-import { collection, query, getDocs, where } from "firebase/firestore";
+import { collection, query, getDocs } from "firebase/firestore";
 import { useFirebase } from "~/composables/useFirebase";
 
 const items = ref<Item[]>([]);

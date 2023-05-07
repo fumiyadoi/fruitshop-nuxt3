@@ -1,7 +1,9 @@
 <template>
   <div class="bg-gray-100">
     <Navbar :logined="logined" />
-    <slot />
+    <div class="min-h-[calc(100vh_-_44px)]">
+      <slot />
+    </div>
   </div>
 </template>
 
