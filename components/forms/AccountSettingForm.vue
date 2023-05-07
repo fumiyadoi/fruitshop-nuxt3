@@ -63,7 +63,7 @@ const handleChangeNickname = async () => {
   checkNicknameValidation();
   if (nicknameError.value) return;
   try {
-    const userId = await getUserId();
+    const userId = getUserId();
     if (!userId) {
       window.alert("ユーザーIDが取得できませんでした");
       return;
@@ -72,7 +72,6 @@ const handleChangeNickname = async () => {
     await updateDoc(userRef, {
       nickname: nickname.value,
     });
-    await navigateTo("/items");
     window.alert("ニックネームを変更しました");
   } catch (error) {
     window.alert("ニックネームの変更に失敗しました");
@@ -94,8 +93,7 @@ const checkNicknameValidation = () => {
   if (nickname.value === "") {
     nicknameError.value = true;
     nicknameErrorMessage.value = "ニックネームの入力は必須です";
-  }
-  if (nickname.value.length > 20) {
+  } else if (nickname.value.length > 20) {
     nicknameError.value = true;
     nicknameErrorMessage.value = "ニックネームは20文字以内で入力してください";
   } else {
