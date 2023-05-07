@@ -1,6 +1,5 @@
 <template>
-  <div class="w-[540px] bg-white px-12 py-8">
-    <h1 class="text-lg font-bold mb-4">新規登録</h1>
+  <div class="w-[784px] bg-white px-12 py-8">
     <div class="mb-4">
       <TextForm
         label="ニックネーム"
@@ -8,21 +7,16 @@
         @update:text="nickname = $event"
         type="text"
         placeholder="ニックネームを入力してください"
-        required
+        :required="false"
         :error="nicknameError"
         :errorMessage="nicknameErrorMessage"
       />
     </div>
-    <div class="mb-4">
-      <TextForm
-        label="メールアドレス"
-        :text="email"
-        @update:text="email = $event"
-        type="email"
-        placeholder="メールアドレスを入力してください"
-        required
-        :error="emailError"
-        :errorMessage="emailErrorMessage"
+    <div class="mb-6">
+      <Button
+        text="ニックネームを変更する"
+        type="primary"
+        :onClick="handleChangeNickname"
       />
     </div>
     <div class="mb-4">
@@ -32,13 +26,17 @@
         @update:text="password = $event"
         type="password"
         placeholder="パスワードを入力してください"
-        required
+        :required="false"
         :error="passwordError"
         :errorMessage="passwordErrorMessage"
       />
     </div>
     <div class="">
-      <Button text="新規登録" type="primary" :onClick="handleSignUp" />
+      <Button
+        text="パスワードを変更する"
+        type="primary"
+        :onClick="handleChangePassword"
+      />
     </div>
   </div>
 </template>
@@ -46,39 +44,49 @@
 <script setup lang="ts">
 import TextForm from "@/components/form/TextForm.vue";
 import Button from "@/components/button/Button.vue";
+import { doc, updateDoc } from "firebase/firestore";
+import { useAuth } from "~/composables/useAuth";
+import { useFirebase } from "~/composables/useFirebase";
 
 const nickname = ref("");
 const nicknameError = ref(false);
 const nicknameErrorMessage = ref("");
 
-const email = ref("");
-const emailError = ref(false);
-const emailErrorMessage = ref("");
-
 const password = ref("");
 const passwordError = ref(false);
 const passwordErrorMessage = ref("");
 
-const { signUp } = useAuth();
+const { getUserId, changePassword } = useAuth();
+const { db } = useFirebase();
 
-const handleSignUp = async () => {
+const handleChangeNickname = async () => {
   checkNicknameValidation();
-  checkEmailValidation();
-  checkPasswordValidation();
-  if (nicknameError.value || emailError.value || passwordError.value) return;
+  if (nicknameError.value) return;
   try {
-    await signUp(nickname.value, email.value, password.value);
-    await navigateTo("/items");
-    window.alert("新規登録しました");
-  } catch (error) {
-    if (
-      error instanceof Error &&
-      error.message === "Firebase: Error (auth/email-already-in-use)."
-    ) {
-      window.alert("既に登録されているメールアドレスです");
-    } else {
-      window.alert("新規登録に失敗しました");
+    const userId = await getUserId();
+    if (!userId) {
+      window.alert("ユーザーIDが取得できませんでした");
+      return;
     }
+    const userRef = doc(db, "users", userId);
+    await updateDoc(userRef, {
+      nickname: nickname.value,
+    });
+    await navigateTo("/items");
+    window.alert("ニックネームを変更しました");
+  } catch (error) {
+    window.alert("ニックネームの変更に失敗しました");
+  }
+};
+
+const handleChangePassword = async () => {
+  checkPasswordValidation();
+  if (passwordError.value) return;
+  try {
+    await changePassword(password.value);
+    window.alert("パスワードを変更しました");
+  } catch (error) {
+    window.alert("パスワードの変更に失敗しました");
   }
 };
 
@@ -86,27 +94,13 @@ const checkNicknameValidation = () => {
   if (nickname.value === "") {
     nicknameError.value = true;
     nicknameErrorMessage.value = "ニックネームの入力は必須です";
-  } else if (nickname.value.length > 20) {
+  }
+  if (nickname.value.length > 20) {
     nicknameError.value = true;
     nicknameErrorMessage.value = "ニックネームは20文字以内で入力してください";
   } else {
     nicknameError.value = false;
     nicknameErrorMessage.value = "";
-  }
-};
-
-const checkEmailValidation = () => {
-  const emailPattern =
-    /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
-  if (email.value === "") {
-    emailError.value = true;
-    emailErrorMessage.value = "メールアドレスの入力は必須です";
-  } else if (!emailPattern.test(email.value)) {
-    emailError.value = true;
-    emailErrorMessage.value = "メールアドレスの形式で入力してください";
-  } else {
-    emailError.value = false;
-    emailErrorMessage.value = "";
   }
 };
 

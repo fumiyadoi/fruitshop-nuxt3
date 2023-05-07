@@ -20,7 +20,7 @@
 const { checkIsLogined } = useAuth();
 
 const goItems = async () => {
-  const logined = await checkIsLogined();
+  const logined = checkIsLogined();
   if (logined) {
     await navigateTo("/items");
   } else {

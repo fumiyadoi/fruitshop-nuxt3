@@ -43,11 +43,12 @@ const password = ref("");
 const passwordError = ref(false);
 const passwordErrorMessage = ref("");
 
+const { signIn } = useAuth();
+
 const handleSignIn = async () => {
   checkEmailValidation();
   checkPasswordValidation();
   if (emailError.value || passwordError.value) return;
-  const { signIn } = useAuth();
   try {
     await signIn(email.value, password.value);
     await navigateTo("/items");

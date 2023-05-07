@@ -2,7 +2,7 @@
   <footer class="bg-white">
     <div class="flex justify-center items-center gap-3 py-2">
       <div class="text-lg font-bold">
-        小計：{{ calculateTotalPrice().toLocaleString() }}円（{{
+        小計：￥{{ calculateTotalPrice().toLocaleString() }}（{{
           calculateTotalCount().toLocaleString()
         }}個の商品）
       </div>

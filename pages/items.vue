@@ -27,9 +27,8 @@
 import Input from "@/components/input/Input.vue";
 import Button from "@/components/button/Button.vue";
 import ItemCard from "@/components/item/ItemCard.vue";
-import { Item } from "~/composables/useItems";
 import { collection, query, getDocs } from "firebase/firestore";
-import { useFirebase } from "~/composables/useFirebase";
+import { Item } from "~/composables/useItems";
 
 const items = ref<Item[]>([]);
 const searchText = ref("");
@@ -37,15 +36,19 @@ const searchText = ref("");
 const { db } = useFirebase();
 
 onMounted(async () => {
-  const itemsSnapshot = await getDocs(query(collection(db, "items")));
-  const itemsDocs = itemsSnapshot.docs;
-  items.value = itemsDocs.map((itemDoc) => {
-    const item = itemDoc.data() as Item;
-    return {
-      ...item,
-      id: itemDoc.id,
-    };
-  });
+  try {
+    const itemsSnapshot = await getDocs(query(collection(db, "items")));
+    const itemsDocs = itemsSnapshot.docs;
+    items.value = itemsDocs.map((itemDoc) => {
+      const itemData = itemDoc.data() as Item;
+      return {
+        ...itemData,
+        id: itemDoc.id,
+      };
+    });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 const onInputText = (text: string) => {
