@@ -7,7 +7,7 @@
 <script setup lang="ts">
 interface Props {
   text: string;
-  onClick: () => void;
+  onClick: () => void | Promise<void>;
   type: "default" | "primary" | "danger";
 }
 
