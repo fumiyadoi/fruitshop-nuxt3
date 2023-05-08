@@ -1,3 +1,6 @@
+import { getDocs, query, collection } from "firebase/firestore";
+import { ItemCount } from "./useCartItems";
+
 export interface Item {
   id: string;
   name: string;
@@ -5,60 +8,34 @@ export interface Item {
   image: string;
 }
 
-export interface ItemCount extends Item {
-  count: number;
-}
+export const useItems = () => {
+  const items = useState<Item[]>("items", () => []);
 
-export const useCartItems = () => {
-  const cartItems = useState<ItemCount[]>("items", () => []);
+  const { db } = useFirebase();
 
-  // 商品を追加する関数
-  const addItem = (item: Item) => {
-    const itemIds = cartItems.value.map((item) => item.id);
-    if (itemIds.includes(item.id)) {
-      const index = itemIds.indexOf(item.id);
-      cartItems.value[index].count += 1;
-    } else {
-      cartItems.value.push({ ...item, count: 1 });
-    }
+  // レシートを取得する関数
+  const getItems = async () => {
+    const itemsSnapshot = await getDocs(query(collection(db, "items")));
+    const itemsDocs = itemsSnapshot.docs;
+    items.value = itemsDocs.map((itemDoc) => {
+      const itemData = itemDoc.data() as Item;
+      return {
+        ...itemData,
+        id: itemDoc.id,
+      };
+    });
   };
 
-  // 商品の数を変更する関数
-  const changeCount = (id: string, count: number) => {
-    const itemIds = cartItems.value.map((item) => item.id);
-    if (itemIds.includes(id)) {
-      const index = itemIds.indexOf(id);
-      cartItems.value[index].count = count;
-    }
-  };
-
-  // ログアウトする関数
-  const deleteItem = (id: string) => {
-    const itemIds = cartItems.value.map((item) => item.id);
-    if (itemIds.includes(id)) {
-      const index = itemIds.indexOf(id);
-      cartItems.value.splice(index, 1);
-    }
-  };
-
-  const calculateTotalCount = () => {
-    return cartItems.value.reduce((sum, item) => {
-      return sum + item.count;
-    }, 0);
-  };
-
-  const calculateTotalPrice = () => {
-    return cartItems.value.reduce((sum, item) => {
-      return sum + item.price * item.count;
-    }, 0);
+  const searchItems = async (text: string) => {
+    await getItems();
+    items.value = items.value.filter((item) => {
+      return item.name.includes(text);
+    });
   };
 
   return {
-    cartItems,
-    addItem,
-    changeCount,
-    deleteItem,
-    calculateTotalCount,
-    calculateTotalPrice,
+    items,
+    getItems,
+    searchItems,
   };
 };

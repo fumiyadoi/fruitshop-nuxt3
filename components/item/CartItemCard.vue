@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import Button from "@/components/button/Button.vue";
 import Select from "@/components/select/Select.vue";
-import { ItemCount } from "~/composables/useItems";
+import { ItemCount } from "~/composables/useCartItems";
 
 const { changeCount, deleteItem } = useCartItems();
 

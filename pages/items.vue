@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout>
-    <div class="w-full flex flex-col items-center pb-6">
+    <div class="w-full flex flex-col items-center pb-8">
       <div class="w-fit">
         <div class="w-full flex justify-between my-4">
           <div class="w-full mr-4">
@@ -27,25 +27,15 @@
 import Input from "@/components/input/Input.vue";
 import Button from "@/components/button/Button.vue";
 import ItemCard from "@/components/item/ItemCard.vue";
-import { collection, query, getDocs } from "firebase/firestore";
-import { Item } from "~/composables/useItems";
+import { useItems } from "~/composables/useItems";
 
-const items = ref<Item[]>([]);
 const searchText = ref("");
 
-const { db } = useFirebase();
+const { items, getItems, searchItems } = useItems();
 
 onMounted(async () => {
   try {
-    const itemsSnapshot = await getDocs(query(collection(db, "items")));
-    const itemsDocs = itemsSnapshot.docs;
-    items.value = itemsDocs.map((itemDoc) => {
-      const itemData = itemDoc.data() as Item;
-      return {
-        ...itemData,
-        id: itemDoc.id,
-      };
-    });
+    await getItems();
   } catch (e) {
     console.log(e);
   }
@@ -56,18 +46,6 @@ const onInputText = (text: string) => {
 };
 
 const handleSearch = async () => {
-  const itemsSnapshot = await getDocs(query(collection(db, "items")));
-  const itemsDocs = itemsSnapshot.docs;
-  items.value = itemsDocs
-    .map((itemDoc) => {
-      const item = itemDoc.data() as Item;
-      return {
-        ...item,
-        id: itemDoc.id,
-      };
-    })
-    .filter((item) => {
-      return item.name.includes(searchText.value);
-    });
+  await searchItems(searchText.value);
 };
 </script>

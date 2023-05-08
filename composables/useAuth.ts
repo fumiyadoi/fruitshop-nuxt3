@@ -4,8 +4,16 @@ import {
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
   updatePassword,
+  deleteUser,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+} from "firebase/firestore";
 
 export const useAuth = () => {
   const { db } = useFirebase();
@@ -107,17 +115,31 @@ export const useAuth = () => {
     }
   };
 
-  // 退会する
+  // 退会関数
   const deleteAccount = async () => {
     try {
+      const userId = getUserId();
+      if (!userId) {
+        window.alert("ユーザーIDが取得できませんでした");
+        return;
+      }
+      const receiptsSnapshot = await getDocs(
+        query(collection(db, "users", userId, "receipts"))
+      );
+      const receiptsDocs = receiptsSnapshot.docs;
+      for (const receiptsDoc of receiptsDocs) {
+        await deleteDoc(doc(db, "users", userId, "items", receiptsDoc.id));
+      }
+      await deleteDoc(doc(db, "users", userId));
       const auth = getAuth();
       const user = auth.currentUser;
       if (user) {
-        await user.delete();
-        await navigateTo("/");
+        await signOut();
+        await deleteUser(user);
       }
+      window.alert("退会しました");
     } catch (error) {
-      throw error;
+      window.alert("退会に失敗しました");
     }
   };
 

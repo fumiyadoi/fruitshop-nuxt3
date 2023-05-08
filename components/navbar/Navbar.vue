@@ -11,7 +11,7 @@
         </div>
         <NuxtLink to="/items" class="">商品を見る</NuxtLink>
         <NuxtLink to="/cart" class="">カートを見る</NuxtLink>
-        <div @click="handleSignOut" class="cursor-pointer">ログアウト</div>
+        <div @click="checkSignOut" class="cursor-pointer">ログアウト</div>
       </div>
       <div class="flex gap-3" v-else>
         <NuxtLink to="/sign_in" class="">ログイン</NuxtLink>
@@ -19,6 +19,13 @@
       </div>
     </div>
   </nav>
+  <Modal
+    :open="open"
+    @update:open="open = $event"
+    content="ログアウトしますか？"
+    buttonText="ログアウト"
+    :onClick="handleSignOut"
+  />
 </template>
 
 <script setup lang="ts">
@@ -32,7 +39,13 @@ const Props = withDefaults(defineProps<Props>(), {
   nickname: "",
 });
 
+const open = ref(false);
+
 const { signOut } = useAuth();
+
+const checkSignOut = () => {
+  open.value = true;
+};
 
 const handleSignOut = async () => {
   await signOut();

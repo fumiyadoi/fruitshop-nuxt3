@@ -31,14 +31,24 @@
         :errorMessage="passwordErrorMessage"
       />
     </div>
-    <div class="">
+    <div class="mb-6">
       <Button
         text="パスワードを変更する"
         type="primary"
         :onClick="handleChangePassword"
       />
     </div>
+    <div class="">
+      <Button text="退会する" type="danger" :onClick="checkDeleteAccount" />
+    </div>
   </div>
+  <Modal
+    :open="open"
+    @update:open="open = $event"
+    content="退会しますか？"
+    buttonText="退会する"
+    :onClick="deleteAccount"
+  />
 </template>
 
 <script setup lang="ts">
@@ -48,6 +58,8 @@ import { doc, updateDoc } from "firebase/firestore";
 import { useAuth } from "~/composables/useAuth";
 import { useFirebase } from "~/composables/useFirebase";
 
+const open = ref(false);
+
 const nickname = ref("");
 const nicknameError = ref(false);
 const nicknameErrorMessage = ref("");
@@ -56,7 +68,7 @@ const password = ref("");
 const passwordError = ref(false);
 const passwordErrorMessage = ref("");
 
-const { getUserId, changePassword } = useAuth();
+const { getUserId, changePassword, deleteAccount } = useAuth();
 const { db } = useFirebase();
 
 const handleChangeNickname = async () => {
@@ -112,5 +124,9 @@ const checkPasswordValidation = () => {
     passwordError.value = false;
     passwordErrorMessage.value = "";
   }
+};
+
+const checkDeleteAccount = () => {
+  open.value = true;
 };
 </script>

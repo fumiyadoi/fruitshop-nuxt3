@@ -6,23 +6,30 @@
           calculateTotalCount().toLocaleString()
         }}個の商品）
       </div>
-      <Button text="購入する" type="primary" :onClick="purchase" />
+      <Button
+        text="購入する"
+        type="primary"
+        :onClick="checkPurchase"
+        :disabled="calculateTotalCount() === 0"
+      />
     </div>
   </footer>
+  <Modal
+    :open="open"
+    @update:open="open = $event"
+    content="購入しますか？"
+    buttonText="購入する"
+    :onClick="purchaseItems"
+  />
 </template>
 
 <script setup lang="ts">
-interface Props {
-  logined: boolean;
-}
+const open = ref(false);
 
-const Props = withDefaults(defineProps<Props>(), {
-  logined: false,
-});
+const { purchaseItems, calculateTotalCount, calculateTotalPrice } =
+  useCartItems();
 
-const { calculateTotalCount, calculateTotalPrice } = useCartItems();
-
-const purchase = async () => {
-  window.alert("購入しました");
+const checkPurchase = () => {
+  open.value = true;
 };
 </script>
