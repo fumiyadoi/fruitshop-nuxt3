@@ -1,12 +1,12 @@
 <template>
   <NuxtLayout>
     <div
-      class="h-[calc(100vh_-_44px)] bg-black flex flex-col justify-evenly items-center text-white"
+      class="h-[calc(100vh_-_44px)] flex flex-col justify-evenly items-center"
     >
       <h1 class="text-5xl font-bold">WELCOME TO FRUIT SHOP</h1>
       <img
         src="@/assets/images/top-image.png"
-        class="object-cover h-[70%]"
+        class="object-cover h-[50%]"
         alt="top-image"
       />
       <div class="underline cursor-pointer text-lg" @click="goItems">
