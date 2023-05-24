@@ -1,8 +1,8 @@
 <template>
   <NuxtLayout>
     <div class="relative">
-      <div class="w-full flex flex-col items-center pt-6 pb-20">
-        <div class="w-fit flex flex-col gap-4">
+      <div class="flex flex-col items-center pt-6 pb-20">
+        <div class="md:w-[768px] w-full flex flex-col gap-4 px-3">
           <CartItemCard v-for="itemCount in cartItems" :itemCount="itemCount" />
         </div>
       </div>

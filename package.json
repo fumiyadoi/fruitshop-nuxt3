@@ -19,6 +19,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.0.18",
     "firebase": "^9.21.0"
   }
 }

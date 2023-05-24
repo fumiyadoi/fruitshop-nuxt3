@@ -6,11 +6,13 @@
       @click="close"
     ></div>
     <div
-      class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col justify-center items-center bg-white px-12 py-8"
+      class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col justify-center items-center bg-white p-8"
       v-show="open"
     >
       <div class="w-full text-center mb-4">{{ content }}</div>
-      <div class="flex justify-between items-center gap-3">
+      <div
+        class="flex md:flex-row flex-col-reverse justify-between items-center gap-3"
+      >
         <Button text="キャンセル" type="default" :onClick="close" />
         <Button :text="buttonText" type="primary" :onClick="handleClick" />
       </div>
