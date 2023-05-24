@@ -11,9 +11,7 @@
         class="object-cover h-[50%]"
         alt="top-image"
       />
-      <div class="underline cursor-pointer text-lg" @click="goItems">
-        商品を見る
-      </div>
+      <Button text="商品を見る" type="primary" :onClick="goItems" />
     </div>
   </NuxtLayout>
 </template>
