@@ -60,6 +60,7 @@ const passwordError = ref(false);
 const passwordErrorMessage = ref("");
 
 const { signUp } = useAuth();
+const { createUser } = useUser();
 
 const handleSignUp = async () => {
   checkNicknameValidation();
@@ -67,7 +68,8 @@ const handleSignUp = async () => {
   checkPasswordValidation();
   if (nicknameError.value || emailError.value || passwordError.value) return;
   try {
-    await signUp(nickname.value, email.value, password.value);
+    const credential = await signUp(email.value, password.value);
+    await createUser(credential.user.uid, nickname.value);
     await navigateTo("/items");
     window.alert("新規登録しました");
   } catch (error) {
