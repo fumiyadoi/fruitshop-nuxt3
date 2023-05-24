@@ -68,7 +68,8 @@ const password = ref("");
 const passwordError = ref(false);
 const passwordErrorMessage = ref("");
 
-const { getUserId, changePassword, deleteAccount } = useAuth();
+const { getUserId, changePassword, deleteAuth } = useAuth();
+const { deleteUser } = useUser();
 const { db } = useFirebase();
 
 const handleChangeNickname = async () => {
@@ -128,5 +129,15 @@ const checkPasswordValidation = () => {
 
 const checkDeleteAccount = () => {
   open.value = true;
+};
+
+const deleteAccount = async () => {
+  try {
+    await deleteUser();
+    await deleteAuth();
+    window.alert("退会しました");
+  } catch (error) {
+    window.alert("退会に失敗しました");
+  }
 };
 </script>

@@ -6,22 +6,12 @@ import {
   updatePassword,
   deleteUser,
 } from "firebase/auth";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  query,
-  setDoc,
-} from "firebase/firestore";
 
 export const useAuth = () => {
-  const { db } = useFirebase();
-
   const token = useState<string | null>("token", () => null);
 
   // メールアドレス新規登録関数
-  const signUp = async (nickname: string, email: string, password: string) => {
+  const signUp = async (email: string, password: string) => {
     try {
       // getAuth()でAuthを取得
       const auth = getAuth();
@@ -31,11 +21,7 @@ export const useAuth = () => {
         email,
         password
       );
-      console.log(userCredential);
-      await setDoc(doc(db, "users", userCredential.user.uid), {
-        nickname: nickname,
-      });
-      return "success";
+      return userCredential;
     } catch (error) {
       throw error;
     }
@@ -116,30 +102,16 @@ export const useAuth = () => {
   };
 
   // 退会関数
-  const deleteAccount = async () => {
+  const deleteAuth = async () => {
     try {
-      const userId = getUserId();
-      if (!userId) {
-        window.alert("ユーザーIDが取得できませんでした");
-        return;
-      }
-      const receiptsSnapshot = await getDocs(
-        query(collection(db, "users", userId, "receipts"))
-      );
-      const receiptsDocs = receiptsSnapshot.docs;
-      for (const receiptsDoc of receiptsDocs) {
-        await deleteDoc(doc(db, "users", userId, "items", receiptsDoc.id));
-      }
-      await deleteDoc(doc(db, "users", userId));
       const auth = getAuth();
       const user = auth.currentUser;
       if (user) {
         await signOut();
         await deleteUser(user);
       }
-      window.alert("退会しました");
     } catch (error) {
-      window.alert("退会に失敗しました");
+      throw error;
     }
   };
 
@@ -151,6 +123,6 @@ export const useAuth = () => {
     checkIsLogined,
     getUserId,
     changePassword,
-    deleteAccount,
+    deleteAuth,
   };
 };

@@ -1,5 +1,4 @@
 import { getDocs, query, collection } from "firebase/firestore";
-import { ItemCount } from "./useCartItems";
 
 export interface Item {
   id: string;
