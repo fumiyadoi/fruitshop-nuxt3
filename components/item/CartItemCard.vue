@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[240px] w-[784px] bg-white flex">
+  <div class="md:h-[240px] h-[120px] md:w-[784px] w-full bg-white flex">
     <img :src="itemCount.image" class="object-cover h-full" alt="apple" />
     <div class="w-full flex flex-col justify-between m-6">
       <div class="flex justify-between items-center">
@@ -18,7 +18,7 @@
           />
         </div>
         <Button
-          text="カートから削除する"
+          text="削除する"
           type="danger"
           :onClick="() => deleteItem(itemCount.id)"
         />

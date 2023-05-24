@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[784px] bg-white px-12 py-8">
+  <div class="w-full bg-white px-12 py-8">
     <div class="mb-4">
       <TextForm
         label="ニックネーム"

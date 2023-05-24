@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[240px] bg-white">
+  <div class="w-full bg-white">
     <img :src="item.image" class="object-cover w-full" alt="item-image" />
     <div class="mt-3 ml-3 mb-4">
       <div class="mb-3">{{ item.name }}</div>

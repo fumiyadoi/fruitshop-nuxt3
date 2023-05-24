@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[784px] bg-white">
+  <div class="w-full bg-white">
     <div class="flex gap-3 ml-6 my-4">
       <div class="">
         <div class="mb-2">注文日</div>
@@ -12,7 +12,10 @@
     </div>
     <hr />
     <div class="ml-8 my-6 flex flex-col gap-4">
-      <div v-for="item in receipt.items" class="flex gap-4 h-[160px]">
+      <div
+        v-for="item in receipt.items"
+        class="flex gap-4 md:h-[160px] h-[120px]"
+      >
         <img :src="item.image" class="object-cover h-full" alt="item-image" />
         <div class="flex flex-col gap-3 mt-4">
           <div class="text-lg font-bold">{{ item.name }}</div>

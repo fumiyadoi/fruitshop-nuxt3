@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout>
     <div class="w-full flex flex-col items-center pb-8">
-      <div class="w-fit">
+      <div class="max-w-[768px] px-3">
         <div class="w-full flex justify-between my-4">
           <div class="w-full mr-4">
             <Input
@@ -15,7 +15,7 @@
           </div>
           <Button text="検索する" type="primary" :onClick="handleSearch" />
         </div>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid md:grid-cols-3 grid-cols-2 gap-4">
           <ItemCard v-for="item in items" :item="item" />
         </div>
       </div>
@@ -27,7 +27,6 @@
 import Input from "@/components/input/Input.vue";
 import Button from "@/components/button/Button.vue";
 import ItemCard from "@/components/item/ItemCard.vue";
-import { useItems } from "~/composables/useItems";
 
 const searchText = ref("");
 

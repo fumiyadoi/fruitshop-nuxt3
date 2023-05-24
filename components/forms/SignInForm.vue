@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[540px] bg-white px-12 py-8">
+  <div class="md:w-[540px] w-full bg-white px-12 py-8">
     <h1 class="text-lg font-bold mb-4">ログイン</h1>
     <div class="mb-4">
       <TextForm
