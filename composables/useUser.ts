@@ -5,6 +5,7 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 export const useUser = () => {
@@ -15,6 +16,21 @@ export const useUser = () => {
   const createUser = async (userId: string, nickname: string) => {
     try {
       await setDoc(doc(db, "users", userId), {
+        nickname: nickname,
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const changeNickname = async (nickname: string) => {
+    try {
+      const userId = getUserId();
+      if (!userId) {
+        throw new Error("ユーザーIDが取得できませんでした");
+      }
+      const userRef = doc(db, "users", userId);
+      await updateDoc(userRef, {
         nickname: nickname,
       });
     } catch (error) {
@@ -45,6 +61,7 @@ export const useUser = () => {
 
   return {
     createUser,
+    changeNickname,
     deleteUser,
   };
 };

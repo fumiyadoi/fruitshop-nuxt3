@@ -54,9 +54,6 @@
 <script setup lang="ts">
 import TextForm from "@/components/form/TextForm.vue";
 import Button from "@/components/button/Button.vue";
-import { doc, updateDoc } from "firebase/firestore";
-import { useAuth } from "~/composables/useAuth";
-import { useFirebase } from "~/composables/useFirebase";
 
 const open = ref(false);
 
@@ -68,23 +65,14 @@ const password = ref("");
 const passwordError = ref(false);
 const passwordErrorMessage = ref("");
 
-const { getUserId, changePassword, deleteAuth } = useAuth();
-const { deleteUser } = useUser();
-const { db } = useFirebase();
+const { changePassword, deleteAuth } = useAuth();
+const { changeNickname, deleteUser } = useUser();
 
 const handleChangeNickname = async () => {
   checkNicknameValidation();
   if (nicknameError.value) return;
   try {
-    const userId = getUserId();
-    if (!userId) {
-      window.alert("ユーザーIDが取得できませんでした");
-      return;
-    }
-    const userRef = doc(db, "users", userId);
-    await updateDoc(userRef, {
-      nickname: nickname.value,
-    });
+    await changeNickname(nickname.value);
     window.alert("ニックネームを変更しました");
   } catch (error) {
     window.alert("ニックネームの変更に失敗しました");
