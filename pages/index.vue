@@ -8,7 +8,7 @@
       </h1>
       <img
         src="@/assets/images/top-image.png"
-        class="object-cover h-[50%]"
+        class="object-cover h-1/2"
         alt="top-image"
       />
       <Button text="商品を見る" type="primary" :onClick="goItems" />
