@@ -7,7 +7,7 @@
       </div>
       <div class="">
         <div class="mb-2">合計</div>
-        <div class="">￥{{ sumPrice }}</div>
+        <div class="">¥{{ sumPrice }}</div>
       </div>
     </div>
     <hr />
