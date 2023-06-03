@@ -7,7 +7,3 @@
     </div>
   </NuxtLayout>
 </template>
-
-<script setup lang="ts">
-import SignInForm from "@/components/forms/SignInForm.vue";
-</script>

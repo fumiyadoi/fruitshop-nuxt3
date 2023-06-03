@@ -18,8 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import Input from "@/components/input/Input.vue";
-
 interface Props {
   label: string;
   text: string;

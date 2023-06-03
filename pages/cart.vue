@@ -14,8 +14,5 @@
 </template>
 
 <script setup lang="ts">
-import CartItemCard from "@/components/item/CartItemCard.vue";
-import Footer from "@/components/footer/Footer.vue";
-
 const { cartItems } = useCartItems();
 </script>

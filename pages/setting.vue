@@ -16,8 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import AccountSettingForm from "@/components/forms/AccountSettingForm.vue";
-
 const { receipts, getReceipts } = useReceipts();
 
 onMounted(async () => {

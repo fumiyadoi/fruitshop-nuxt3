@@ -44,9 +44,6 @@
 </template>
 
 <script setup lang="ts">
-import TextForm from "@/components/form/TextForm.vue";
-import Button from "@/components/button/Button.vue";
-
 const nickname = ref("");
 const nicknameError = ref(false);
 const nicknameErrorMessage = ref("");

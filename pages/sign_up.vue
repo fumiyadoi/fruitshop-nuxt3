@@ -7,7 +7,3 @@
     </div>
   </NuxtLayout>
 </template>
-
-<script setup lang="ts">
-import SignUpForm from "@/components/forms/SignUpForm.vue";
-</script>

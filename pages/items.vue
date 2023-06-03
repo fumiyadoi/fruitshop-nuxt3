@@ -24,10 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import Input from "@/components/input/Input.vue";
-import Button from "@/components/button/Button.vue";
-import ItemCard from "@/components/item/ItemCard.vue";
-
 const searchText = ref("");
 
 const { items, getItems, searchItems } = useItems();

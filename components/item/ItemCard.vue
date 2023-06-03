@@ -12,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import Button from "@/components/button/Button.vue";
 import { Item } from "~/composables/useItems";
 
 interface Props {
