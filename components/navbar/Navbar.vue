@@ -21,12 +21,8 @@
         </div>
       </div>
       <div class="block md:hidden" :onClick="toggleMenu">
-        <component
-          class="w-7 h-7"
-          :is="icons.xMark"
-          v-if="openMenu"
-        ></component>
-        <component class="w-7 h-7" :is="icons.bars3" v-else></component>
+        <component class="w-7 h-7" :is="XMarkIcon" v-if="openMenu"></component>
+        <component class="w-7 h-7" :is="Bars3Icon" v-else></component>
       </div>
     </div>
   </nav>
@@ -61,11 +57,6 @@ const Props = withDefaults(defineProps<Props>(), {
 
 const openMenu = ref(false);
 const openLogoutModal = ref(false);
-
-const icons = reactive({
-  bars3: Bars3Icon,
-  xMark: XMarkIcon,
-});
 
 const { signOut } = useAuth();
 
