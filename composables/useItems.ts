@@ -12,7 +12,7 @@ export const useItems = () => {
 
   const { db } = useFirebase();
 
-  // レシートを取得する関数
+  // 商品を取得する関数
   const getItems = async () => {
     const itemsSnapshot = await getDocs(query(collection(db, "items")));
     const itemsDocs = itemsSnapshot.docs;
