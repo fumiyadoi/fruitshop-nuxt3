@@ -1,12 +1,12 @@
 import { addDoc, collection } from "firebase/firestore";
 import { Item } from "./useItems";
 
-export interface ItemCount extends Item {
+export interface CartItem extends Item {
   count: number;
 }
 
 export const useCartItems = () => {
-  const cartItems = useState<ItemCount[]>("cartItems", () => []);
+  const cartItems = useState<CartItem[]>("cartItems", () => []);
 
   const { db } = useFirebase();
   const { getUserId } = useAuth();

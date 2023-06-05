@@ -28,12 +28,12 @@
 </template>
 
 <script setup lang="ts">
-import { ItemCount } from "~/composables/useCartItems";
+import { CartItem } from "~/composables/useCartItems";
 
 const { changeCount, deleteItem } = useCartItems();
 
 interface Props {
-  itemCount: ItemCount;
+  itemCount: CartItem;
 }
 
 const Props = defineProps<Props>();
