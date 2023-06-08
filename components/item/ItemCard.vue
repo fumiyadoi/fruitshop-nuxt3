@@ -6,7 +6,7 @@
       <div class="text-lg text-red-500 font-bold mb-3">
         ¥{{ item.price.toLocaleString() }}
       </div>
-      <Button text="カートに追加する" type="primary" :onClick="addCart" />
+      <Button text="カートに追加する" type="primary" :onClick="handleAddItem" />
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@ const Props = defineProps<Props>();
 
 const { addItem } = useCartItems();
 
-const addCart = () => {
+const handleAddItem = () => {
   addItem(Props.item);
   window.alert("カートに追加しました");
 };
