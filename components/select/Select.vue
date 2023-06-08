@@ -18,8 +18,8 @@ const Props = withDefaults(defineProps<Props>(), {
   items: () => [],
 });
 
-const selected = (i: string) => {
-  return Props.item === i;
+const selected = (item: string) => {
+  return Props.item === item;
 };
 
 const emits = defineEmits<{ (e: "update:item", item: string): void }>();
