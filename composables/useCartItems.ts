@@ -18,7 +18,8 @@ export const useCartItems = () => {
       const index = itemIds.indexOf(item.id);
       cartItems.value[index].count += 1;
     } else {
-      cartItems.value.push({ ...item, count: 1 });
+      const newCartItem = { ...item, count: 1 };
+      cartItems.value.push(newCartItem);
     }
   };
 
