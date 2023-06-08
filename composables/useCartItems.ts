@@ -16,6 +16,7 @@ export const useCartItems = () => {
     const itemIds = cartItems.value.map((item) => item.id);
     if (itemIds.includes(item.id)) {
       const index = itemIds.indexOf(item.id);
+      if (cartItems.value[index].count >= 11) return;
       cartItems.value[index].count += 1;
     } else {
       const newCartItem = { ...item, count: 1 };
